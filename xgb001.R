@@ -29,7 +29,7 @@ param <- list(objective = "reg:linear",
               print.every = 10L,
               maximize = FALSE)
 
-dmodel <- xgb.DMatrix(as.matrix(dt1[,-"Response",with=F]), label = dt$Response)
+dmodel <- xgb.DMatrix(as.matrix(dt1[,-"Response",with=F]), label = dt1$Response)
 dvalid <- xgb.DMatrix(as.matrix(dt2[,-"Response",with=F]), label = dt2$Response)
 
 # generate model 
