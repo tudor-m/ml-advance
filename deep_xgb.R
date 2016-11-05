@@ -1,5 +1,6 @@
 deep_xgb <- function(trainX,trainY,validX,validY,seed0,objective0,eta0,md0,mc0,subs0,cols0,base0,round0,seed1=42,pw1,objective1,eta1,md1,mc1,subs1,cols1,base1,round1)
 {
+  sink("deep_xgb.out.txt")
   set.seed(seed0)
   param0 <- list(objective = objective0, 
                 eta = eta0, 
@@ -59,6 +60,14 @@ deep_xgb <- function(trainX,trainY,validX,validY,seed0,objective0,eta0,md0,mc0,s
   }
   pred_train_1 = pred_train_0 + imin_train_1*pred_err_train_1
   pred_valid_1 = pred_valid_0 + imin_valid_1*pred_err_valid_1
-  
-  return(list(pred_train_0,pred_valid_0,pred_train_1,pred_valid_1))
+  imin_1 = imin_train_1
+  sink()
+  return(list(pred_train_0,pred_valid_0,pred_train_1,pred_valid_1,pw1,xgb_model0,pw1,xgb_model1,imin_1,mean(pred_train_0)))
+}
+
+deep_xgb.predict <- function(deep_xgb_ret,predictX)
+{
+  pred0         = predict(deep_xgb_ret[[6]],as.matrix(predictX))
+  predict_err_1 = predict(deep_xgb_ret[[8]],as.matrix(predictX)^deep_xgb_ret[[7]])
+  ret           = pred0 + deep_xgb_ret[[9]]*(mean(pred0)^deep_xgb_ret[[7]])/(deep_xgb_ret[[10]]^deep_xgb_ret[[7]])*predict_err_1
 }

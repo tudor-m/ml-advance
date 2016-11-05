@@ -59,3 +59,6 @@ print(errMeasureRMSE(ret[[2]],dt2$Response))
 print(errMeasureRMSE(ret[[3]],dt1$Response))
 print(errMeasureRMSE(ret[[4]],dt2$Response))
 
+pred_test = deep_xgb.predict(ret,validX)
+sum(ret[[4]]-pred_test)
+
